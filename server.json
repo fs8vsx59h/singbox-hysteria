@@ -1,0 +1,86 @@
+{
+    "log": {
+        "level": "debug",
+        "timestamp": true
+    },
+    "dns": {
+        "servers": [
+            {
+                "tag": "nextdns",
+                "address": "https://adguard-dns.com/dns-query",
+                "address_resolver": "local"
+            },
+            {
+                "tag": "local",
+                "address": "45.90.28.202"
+            }
+        ],
+        "final": "nextdns",
+        "disable_cache": false,
+        "independent_cache": true
+    },
+    "route": {
+        "rules": [
+            {
+                "rule_set": "geosite-cn",
+                "outbound": "wireguard"
+            },
+            {
+                "domain_keyword": [
+                    "hentai-cosplays"
+                ],
+                "outbound": "wireguard"
+            }
+        ],
+        "rule_set": [
+            {
+                "tag": "geosite-cn",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
+                "download_detour": "direct"
+            }
+        ],
+        "final": "direct",
+        "auto_detect_interface": true
+    },
+    "inbounds": [
+        {
+            "type": "hysteria2",
+            "tag": "hy2-in",
+            "listen": "::",
+            "listen_port": 9000,
+            "up_mbps": 1000,
+            "down_mbps": 1000,
+            "users": [
+                {
+                    "name": "tobyxdd",
+                    "password": ""
+                }
+            ],
+            "ignore_client_bandwidth": false,
+            "tls": {
+                "enabled": true,
+                "server_name": "",
+                "certificate_path": "/etc/sing-box/fullchain.cer",
+                "key_path": "/etc/sing-box/private.key"
+            },
+            "masquerade": "https://",
+            "brutal_debug": true
+        }
+    ],
+    "outbounds": [
+        {
+            "type": "direct",
+            "tag": "direct"
+        },
+        {
+            "type": "block",
+            "tag": "block"
+        },
+        {
+            "type": "wireguard",
+            "tag": "wireguard"
+        }
+    ]
+}
